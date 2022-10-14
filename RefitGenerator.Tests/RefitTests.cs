@@ -362,19 +362,35 @@ public class RefitTests
 
 
     [Fact]
-    public void InterfaceMethod_MultipleM_Should_Generate()
+    public void InterfaceMethod_MultipleMethods_Should_Generate()
     {
-        var expected = $"[Get(\"/api/test\")]{EOF}" +
-                       $"public Task<int> DoIt(int a, string b);{EOF}";
+        var expected = $"public interface IWebApiService" +
+                            $"{EOF}{{" +
+                            $"{EOF}" +
+                            $"[Post(\"/api/user\")]{EOF}" +
+                            $"public Task<UserCreated> CreateUser([Body] CreateUserAction action);{EOF}" +
+                            $"[Get(\"/api/user\")]{EOF}" +
+                            $"public Task<User> GetUser(GetUserQuery query);{EOF}" +
+                            $"{EOF}}}";
 
-        var result = factory.Compose(
-                        factory.InterfaceMethod(
-                                        name: "DoIt",
-                                        returnType: factory.Type("Task<int>"),
-                                        modifiers: new[] { factory.Public() },
-                                        @params: new[] {factory.ParamInfo("a", factory.Integer()), 
-                                                        factory.ParamInfo("b", factory.String())},
-                                        attributes: new [] {factory.Attribute("Get", factory.StringConst("/api/test"))}))
+        var result = factory.Interface("IWebApiService",
+                            body: factory.Compose(
+                                    factory.InterfaceMethod(
+                                                    name: "CreateUser",
+                                                    returnType: factory.Type("Task<UserCreated>"),
+                                                    modifiers: new[] { factory.Public() },
+                                                    @params: new[] { factory.ParamInfo("action", 
+                                                                        type: factory.Type("CreateUserAction"), 
+                                                                        attributes: new [] { factory.Attribute("Body") }) },
+                                                    attributes: new[] { factory.Attribute("Post", factory.StringConst("/api/user")) }),
+                                    factory.InterfaceMethod(
+                                                    name: "GetUser",
+                                                    returnType: factory.Type("Task<User>"),
+                                                    modifiers: new[] { factory.Public() },
+                                                    @params: new[] { factory.ParamInfo("query", factory.Type("GetUserQuery")) },
+                                                    attributes: new[] { factory.Attribute("Get", factory.StringConst("/api/user")) })
+                                 )
+                            )
                     .Generate();
 
         Assert.Equal(expected, result);
