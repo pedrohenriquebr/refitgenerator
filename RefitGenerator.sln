@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32922.545
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RefitGenerator", "RefitGenerator.csproj", "{B3094343-6AA1-43F0-AF6A-356F88D245A1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RefitGenerator.Tests", "..\RefitGenerator.Tests\RefitGenerator.Tests.csproj", "{21DF000A-A55F-4D36-B02F-8A662D1E7347}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B3094343-6AA1-43F0-AF6A-356F88D245A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3094343-6AA1-43F0-AF6A-356F88D245A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3094343-6AA1-43F0-AF6A-356F88D245A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3094343-6AA1-43F0-AF6A-356F88D245A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21DF000A-A55F-4D36-B02F-8A662D1E7347}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21DF000A-A55F-4D36-B02F-8A662D1E7347}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21DF000A-A55F-4D36-B02F-8A662D1E7347}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21DF000A-A55F-4D36-B02F-8A662D1E7347}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EADF6C1A-6488-4201-AA5C-FF465B5CFA9A}
+	EndGlobalSection
+EndGlobal
