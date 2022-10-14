@@ -1,5 +1,6 @@
 ﻿using RefitGenerator.Core;
 using RefitGenerator.Factories;
+using RefitGenerator.Util;
 using Xunit;
 namespace RefitGenerator.Tests;
 
@@ -7,11 +8,13 @@ namespace RefitGenerator.Tests;
 public class RefitTests
 {
     private readonly string EOF = "\r\n";
-    private readonly string INDENT = "  ";
+    private readonly string INDENT = " ";
     private readonly MethodAlgebraGenerator factory;
+    private readonly DefaultSourceFormatter formatterProvider;
     public RefitTests()
     {
-        factory = new MethodAlgebraGenerator(new DefaultSourceFormatter(EOF, INDENT));
+        formatterProvider = new DefaultSourceFormatter();
+        factory = new MethodAlgebraGenerator(formatterProvider);
     }
 
 
@@ -397,6 +400,41 @@ public class RefitTests
     }
 
 
+    [Fact]
+    public void SourceFormatter_Format_Extension()
+    {
+        var expected = $"public interface IWebApiService" +
+                            $"{EOF}{{" +
+                            $"{EOF}" +
+                            $"{INDENT}[Post(\"/api/user\")]{EOF}" +
+                            $"{INDENT}public Task<UserCreated> CreateUser([Body] CreateUserAction action);{EOF}" +
+                            $"{INDENT}[Get(\"/api/user\")]{EOF}" +
+                            $"{INDENT}public Task<User> GetUser(GetUserQuery query);{EOF}" +
+                            $"}}";
+
+        var result = factory.Interface("IWebApiService",
+                            body: factory.Compose(
+                                    factory.InterfaceMethod(
+                                                    name: "CreateUser",
+                                                    returnType: factory.Type("Task<UserCreated>"),
+                                                    modifiers: new[] { factory.Public() },
+                                                    @params: new[] { factory.ParamInfo("action", 
+                                                                        type: factory.Type("CreateUserAction"), 
+                                                                        attributes: new [] { factory.Attribute("Body") }) },
+                                                    attributes: new[] { factory.Attribute("Post", factory.StringConst("/api/user")) }),
+                                    factory.InterfaceMethod(
+                                                    name: "GetUser",
+                                                    returnType: factory.Type("Task<User>"),
+                                                    modifiers: new[] { factory.Public() },
+                                                    @params: new[] { factory.ParamInfo("query", factory.Type("GetUserQuery")) },
+                                                    attributes: new[] { factory.Attribute("Get", factory.StringConst("/api/user")) })
+                                 )
+                            )
+                    .Generate();
+
+        var formatted = formatterProvider.FormatCode(result);
+        Assert.Equal(expected, formatted);
+    }
 
     public static T GenerateNamespacesAndEmptyClass<T>(IMultipleStatementsAlgebra<T, IFileBehavior, IModifierBehavior> factory)
     => factory.Root(
