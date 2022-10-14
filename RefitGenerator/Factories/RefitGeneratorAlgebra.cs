@@ -74,4 +74,11 @@ public class RefitGeneratorAlgebra : IStatementsAlgebra<IStatementBehavior, IFil
         return Make(() => $"using {s}");
 
     }
+
+
+    public IStatementBehavior Region(string name, IStatementBehavior body) 
+        => Make(() => $"#region {name} {e.GetEof(2)}"+
+                      $"{body.Generate()}" +
+                      $"{e.GetEof(2)}"+
+                      $"#endregion{e.GetEof()}");
 }
