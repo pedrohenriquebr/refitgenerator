@@ -29,7 +29,7 @@ public class RefitGeneratorAlgebra : IStatementsAlgebra<IStatementBehavior, IFil
             $"}}";
 
     protected string JoinArguments(IValueBehavior[] stmts, string @char = "")
-        => stmts.Aggregate("", (acc, x) => acc + x.Generate() + @char);
+        => string   .Join(@char, stmts.Select(x => x.Generate()));
 
     protected string JoinStatements(IStatementBehavior[] stmts, string @char = "")
         => stmts.Aggregate("", (acc, x) => acc + x.Generate() + @char);

@@ -12,8 +12,26 @@ public class MethodAlgebraGenerator : TypesAndMemberGenerator,
     protected string JoinParamsInfo(IParameterInfoBehavior[] stmts)
         => string.Join(", ", stmts.Select((x) => x.Generate()));
 
-    public IStatementBehavior InterfaceMethod(string name, ITypeBehavior returnType, IModifierBehavior[] modifiers, IParameterInfoBehavior[] parameters)
-        => Make(() => JoinModifiers(modifiers, " ") + returnType.Generate() + " " + name + $"({JoinParamsInfo(parameters)})");
+    protected string JoinAttributes(IAttributeBehavior[] attributes)
+        => attributes.Aggregate("", (acc,x) => acc + x.Generate() + $"{e.GetEof()}");
+
+    public IStatementBehavior InterfaceMethod(string name, ITypeBehavior returnType, IModifierBehavior[] modifiers, IParameterInfoBehavior[] @params)
+        => InterfaceMethod(name, returnType, modifiers, @params, new AttributeBehavior[] { });
+
+    public IStatementBehavior InterfaceMethod(string name, ITypeBehavior returnType, IModifierBehavior[] modifiers, IAttributeBehavior[] attributes)
+        => InterfaceMethod(name, returnType, modifiers, new ParameterInfoBehavior[]{ }, attributes);
+
+    public IStatementBehavior InterfaceMethod(string name, 
+                                              ITypeBehavior returnType,
+                                              IModifierBehavior[] modifiers, 
+                                              IParameterInfoBehavior[] @params,
+                                              IAttributeBehavior[] attributes)
+     => Make(() => JoinAttributes(attributes) +
+                   JoinModifiers(modifiers, " ") + 
+                   returnType.Generate() + 
+                   " " + 
+                   name + 
+                   $"({JoinParamsInfo(@params)})");
 
     public IStatementBehavior InterfaceMethod(string name, ITypeBehavior returnType, IModifierBehavior[] modifiers)
         => InterfaceMethod(name, returnType, modifiers, new ParameterInfoBehavior[] { });
@@ -37,8 +55,5 @@ public class MethodAlgebraGenerator : TypesAndMemberGenerator,
     public IValueBehavior StringConst(string value)
      => MakeValue(() => $"\"{value}\"");
 
-    public IStatementBehavior InterfaceMethod(string name, ITypeBehavior returnType, IModifierBehavior[] modifiers, IParameterInfoBehavior[] @params, IAttributeBehavior[] attributes)
-    {
-        throw new NotImplementedException();
-    }
+
 }
