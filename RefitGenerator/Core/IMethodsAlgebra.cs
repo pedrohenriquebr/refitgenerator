@@ -8,7 +8,9 @@ public interface IMethodsAlgebra<TStatement, TFile, TModifier, TType, TPropAcces
     TStatement InterfaceMethod(string name, TType returnType, TModifier[] modifiers);
     TStatement InterfaceMethod(string name, TType returnType);
     TStatement InterfaceMethod(string name, TType returnType, TModifier[] modifiers, TParam[] @params, TAttribute[] attributes);
+    TStatement InterfaceMethod(string name, TType returnType, TModifier[] modifiers, TAttribute[] attributes);
     TParam ParamInfo(string name, TType type);
+    TParam ParamInfo(string name, TType type, TAttribute[] attributes);
     TAttribute Attribute(string name, params TValue[] arguments);
     TValue StringConst(string value);
 }
