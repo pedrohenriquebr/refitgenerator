@@ -13,7 +13,7 @@ public class RefitTests
     private readonly DefaultSourceFormatter formatterProvider;
     public RefitTests()
     {
-        formatterProvider = new DefaultSourceFormatter();
+        formatterProvider = new DefaultSourceFormatter(EOF, INDENT);
         factory = new MethodAlgebraGenerator(formatterProvider);
     }
 
@@ -434,6 +434,38 @@ public class RefitTests
 
         var formatted = formatterProvider.FormatCode(result);
         Assert.Equal(expected, formatted);
+    }
+
+
+    [Fact]
+    public void Regions_Should_Generate()
+    {
+        string expected = $"#region Service {EOF}" +
+                          $"{EOF}" +
+                          $"public class Class{EOF}" +
+                          $"{{{EOF}";
+
+        string result = factory.Region("Service",
+            factory.Interface("IWebApiService",
+                            body: factory.Compose(
+                                    factory.InterfaceMethod(
+                                                    name: "CreateUser",
+                                                    returnType: factory.Type("Task<UserCreated>"),
+                                                    modifiers: new[] { factory.Public() },
+                                                    @params: new[] { factory.ParamInfo("action",
+                                                                        type: factory.Type("CreateUserAction"),
+                                                                        attributes: new [] { factory.Attribute("Body") }) },
+                                                    attributes: new[] { factory.Attribute("Post", factory.StringConst("/api/user")) }),
+                                    factory.InterfaceMethod(
+                                                    name: "GetUser",
+                                                    returnType: factory.Type("Task<User>"),
+                                                    modifiers: new[] { factory.Public() },
+                                                    @params: new[] { factory.ParamInfo("query", factory.Type("GetUserQuery")) },
+                                                    attributes: new[] { factory.Attribute("Get", factory.StringConst("/api/user")) })
+                                 )
+                            ))
+                    .Generate();
+        Assert.Equal(expected,result);
     }
 
     public static T GenerateNamespacesAndEmptyClass<T>(IMultipleStatementsAlgebra<T, IFileBehavior, IModifierBehavior> factory)
