@@ -7,4 +7,5 @@ public interface IStatementsAlgebra<TStatement, TFile, TModifier> : IRefitExpAlg
     TStatement Interface(string name, TModifier[] modifiers, TStatement body);
     TStatement Class(string name, TStatement body);
     TStatement Class(string name);
+    TStatement Region(string name, TStatement body);
 }
