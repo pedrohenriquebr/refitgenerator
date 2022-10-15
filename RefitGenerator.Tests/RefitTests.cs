@@ -1,4 +1,4 @@
-using RefitGenerator.Core;
+﻿using RefitGenerator.Core;
 using RefitGenerator.Factories;
 using RefitGenerator.Util;
 using Xunit;
@@ -441,8 +441,15 @@ public class RefitTests
     {
         string expected = $"#region Service {EOF}" +
                           $"{EOF}" +
-                          $"public class Class{EOF}" +
-                          $"{{{EOF}";
+                          $"public interface IWebApiService" +
+                          $"{EOF}{{" +
+                          $"{EOF}" +
+                          $"{INDENT}[Post(\"/api/user\")]{EOF}" +
+                          $"{INDENT}public Task<UserCreated> CreateUser([Body] CreateUserAction action);{EOF}" +
+                          $"{INDENT}[Get(\"/api/user\")]{EOF}" +
+                          $"{INDENT}public Task<User> GetUser(GetUserQuery query);{EOF}" +
+                          $"}}{EOF}{EOF}"+
+                          $"#endregion{EOF}";
 
         string result = factory.Region("Service",
             factory.Interface("IWebApiService",
