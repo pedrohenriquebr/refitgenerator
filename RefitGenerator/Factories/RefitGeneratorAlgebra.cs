@@ -25,7 +25,6 @@ public class RefitGeneratorAlgebra : IStatementsAlgebra<IStatementBehavior, IFil
             $"{{" +
             $"{e.GetEof()}" +
             body +
-            $"{e.GetEof()}" +
             $"}}";
 
     protected string JoinArguments(IValueBehavior[] stmts, string @char = "")
