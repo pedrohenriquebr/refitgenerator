@@ -1,4 +1,5 @@
 ﻿using RefitGenerator.Core;
+using RefitGenerator.Util;
 
 namespace RefitGenerator.Factories;
 public class RefitGeneratorAlgebra : IStatementsAlgebra<IStatementBehavior, IFileBehavior, IModifierBehavior>
@@ -77,7 +78,7 @@ public class RefitGeneratorAlgebra : IStatementsAlgebra<IStatementBehavior, IFil
 
     public IStatementBehavior Region(string name, IStatementBehavior body) 
         => Make(() => $"#region {name} {e.GetEof(2)}"+
-                      $"{body.Generate()}" +
+                      $"{e.FormatCode(body.Generate())}" +
                       $"{e.GetEof(2)}"+
                       $"#endregion{e.GetEof()}");
 }
