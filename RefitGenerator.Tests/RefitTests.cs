@@ -1,4 +1,4 @@
-﻿using RefitGenerator.Core;
+using RefitGenerator.Core;
 using RefitGenerator.Factories;
 using RefitGenerator.Util;
 using Xunit;
@@ -47,7 +47,7 @@ public class RefitTests
     [Fact]
     public void ClassDeclaration_EmptyBody_Should_Generate()
     {
-        string expected = $"public class UserInputModel{EOF}{{{EOF}{EOF}}}";
+        string expected = $"public class UserInputModel{EOF}{{{EOF}}}";
         string actual = factory.Class("UserInputModel")
             .Generate();
 
@@ -58,9 +58,8 @@ public class RefitTests
     public void InterfaceDeclaration_EmptyBody_Should_Generate()
     {
         string expected = $"public interface IWebApiService" +
-                            $"{EOF}{{" +
-                            $"{EOF}" +
-                            $"{EOF}}}";
+                            $"{EOF}{{{EOF}" +
+                            $"}}";
         string actual = factory.Interface("IWebApiService")
             .Generate();
 
@@ -74,7 +73,7 @@ public class RefitTests
             $"namespace TestWebApi.Application.Models;{EOF}" +
             $"public class UserInputModel{EOF}" +
             $"{{{EOF}" +
-            $"{EOF}}}";
+            $"}}";
         string actual = GenerateNamespacesAndEmptyClass(factory)
             .Generate();
 
@@ -87,7 +86,7 @@ public class RefitTests
     {
         string expected = $"public class UserInputModel{EOF}{{{EOF}" +
             $"public int RandomInteger;{EOF}" +
-            $"{EOF}}}";
+            $"}}";
         string actual = factory
             .Class("UserInputModel",
                 factory.Compose(
@@ -108,7 +107,7 @@ public class RefitTests
             $"public int RandomInteger;{EOF}" +
             $"private double X;{EOF}" +
             $"public static float K;{EOF}" +
-            $"{EOF}}}";
+            $"}}";
         string actual = factory
             .Class("UserInputModel",
                 factory.Compose(
@@ -138,7 +137,7 @@ public class RefitTests
             $"public static float K;{EOF}" +
             $"protected double C {{ get; set; }}{EOF}" +
             $"public static float D {{ get; set; }}{EOF}" +
-            $"{EOF}}}";
+            $"}}";
         string actual = factory
             .Class("UserInputModel",
                 factory.Block(
@@ -173,7 +172,7 @@ public class RefitTests
             $"public class UserInputModel{EOF}" +
             $"{{{EOF}" +
             $"public int RandomInteger {{ get; set; }}{EOF}" +
-            $"{EOF}}}";
+            $"}}";
         string actual = factory
             .Class("UserInputModel",
                 factory.Block(
@@ -196,7 +195,7 @@ public class RefitTests
             $"public static float D {{ get; set; }}{EOF}" +
             $"private static int E {{ get; set; }}{EOF}" +
             $"int JJ {{ get; set; }}{EOF}" +
-            $"{EOF}}}";
+            $"}}";
         string actual = factory
             .Class("UserInputModel",
                 factory.Block(
@@ -225,7 +224,7 @@ public class RefitTests
             $"public int J {{ private get; }}{EOF}" +
             $"public int K {{ get; }}{EOF}" +
             $"public int L {{ set; }}{EOF}" +
-            $"{EOF}}}";
+            $"}}";
         string actual = factory
             .Class("UserInputModel",
                 factory.Block(
@@ -316,7 +315,7 @@ public class RefitTests
                             $"public Task<CreateResponse> Create(CreateRequest request);{EOF}" +
                             $"public Task<DeleteResponse> Delete(int i);{EOF}" +
                             $"public Task<SearchResponse> Search(SearchRequest searchRequest);{EOF}" +
-                            $"{EOF}}}";
+                            $"}}";
         string actual = factory.Interface("IWebApiService",
                                     modifiers: new[] { factory.Public() },
                                     body: factory.Block(
@@ -374,7 +373,7 @@ public class RefitTests
                             $"public Task<UserCreated> CreateUser([Body] CreateUserAction action);{EOF}" +
                             $"[Get(\"/api/user\")]{EOF}" +
                             $"public Task<User> GetUser(GetUserQuery query);{EOF}" +
-                            $"{EOF}}}";
+                            $"}}";
 
         var result = factory.Interface("IWebApiService",
                             body: factory.Compose(
