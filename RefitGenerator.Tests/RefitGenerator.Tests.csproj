@@ -9,7 +9,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="OpenApiTests\Assets\SimpleApi\expected.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="OpenApiTests\Assets\SimpleApi\expected.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+    <PackageReference Include="Microsoft.OpenApi.Readers" Version="1.4.1" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -24,5 +35,13 @@
   <ItemGroup>
     <ProjectReference Include="..\RefitGenerator\RefitGenerator.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="OpenApiTests\Assets\SimpleApi\input.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>
