@@ -5,7 +5,6 @@ public interface ISimpleOpenApiOverviewService
 {
     [Get]
     public Task<ListVersionsv2Response> ListVersionsv2();
-
     [Get("/v2")]
     public Task<GetVersionDetailsv2Response> GetVersionDetailsv2();
 }
