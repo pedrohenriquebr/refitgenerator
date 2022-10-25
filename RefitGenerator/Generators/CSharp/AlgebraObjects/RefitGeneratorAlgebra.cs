@@ -1,7 +1,8 @@
 ﻿using RefitGenerator.Core;
+using RefitGenerator.Generators.CSharp.Behaviors;
 using RefitGenerator.Util;
 
-namespace RefitGenerator.Factories;
+namespace RefitGenerator.Generators.CSharp.AlgebraObjects;
 public class RefitGeneratorAlgebra : IStatementsAlgebra<IStatementBehavior, IFileBehavior, IModifierBehavior>
 {
     protected readonly ISourceFormatterProvider e;
@@ -29,7 +30,7 @@ public class RefitGeneratorAlgebra : IStatementsAlgebra<IStatementBehavior, IFil
             $"}}";
 
     protected string JoinArguments(IValueBehavior[] stmts, string @char = "")
-        => string   .Join(@char, stmts.Select(x => x.Generate()));
+        => string.Join(@char, stmts.Select(x => x.Generate()));
 
     protected string JoinStatements(IStatementBehavior[] stmts, string @char = "")
         => stmts.Aggregate("", (acc, x) => acc + x.Generate() + @char);
@@ -76,9 +77,9 @@ public class RefitGeneratorAlgebra : IStatementsAlgebra<IStatementBehavior, IFil
     }
 
 
-    public IStatementBehavior Region(string name, IStatementBehavior body) 
-        => Make(() => $"#region {name} {e.GetEof(2)}"+
+    public IStatementBehavior Region(string name, IStatementBehavior body)
+        => Make(() => $"#region {name} {e.GetEof(2)}" +
                       $"{e.FormatCode(body.Generate())}" +
-                      $"{e.GetEof(2)}"+
+                      $"{e.GetEof(2)}" +
                       $"#endregion{e.GetEof()}");
 }

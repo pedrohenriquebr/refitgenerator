@@ -1,6 +1,6 @@
 ﻿using RefitGenerator.Core;
 
-namespace RefitGenerator.Factories;
+namespace RefitGenerator.Generators.CSharp;
 
 public class DefaultSourceFormatter : ISourceFormatterProvider
 {

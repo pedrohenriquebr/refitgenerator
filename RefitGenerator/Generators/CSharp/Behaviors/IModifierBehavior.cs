@@ -1,4 +1,4 @@
-﻿namespace RefitGenerator.Core;
+﻿namespace RefitGenerator.Generators.CSharp.Behaviors;
 
 public interface IModifierBehavior
 {

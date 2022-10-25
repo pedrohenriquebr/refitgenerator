@@ -1,6 +1,7 @@
 ﻿using RefitGenerator.Core;
+using RefitGenerator.Generators.CSharp.Behaviors;
 
-namespace RefitGenerator.Factories;
+namespace RefitGenerator.Generators.CSharp.AlgebraObjects;
 
 public class TypesAndMemberGenerator : MultipleStatementsAlgebra, ITypesAndMembersAlgebra<IStatementBehavior, IFileBehavior, IModifierBehavior, ITypeBehavior, IPropAccessorBehavior>
 {

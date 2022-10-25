@@ -1,5 +1,7 @@
 ﻿using RefitGenerator.Core;
-using RefitGenerator.Factories;
+using RefitGenerator.Generators.CSharp;
+using RefitGenerator.Generators.CSharp.AlgebraObjects;
+using RefitGenerator.Generators.CSharp.Behaviors;
 using RefitGenerator.Util;
 using Xunit;
 namespace RefitGenerator.Tests;

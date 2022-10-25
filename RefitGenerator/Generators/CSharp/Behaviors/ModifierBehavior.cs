@@ -1,6 +1,4 @@
-﻿using RefitGenerator.Core;
-
-namespace RefitGenerator.Factories;
+﻿namespace RefitGenerator.Generators.CSharp.Behaviors;
 
 public class ModifierBehavior : IModifierBehavior
 {

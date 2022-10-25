@@ -1,6 +1,7 @@
 ﻿using Microsoft.OpenApi.Readers;
 using RefitGenerator.Core;
-using RefitGenerator.Factories;
+using RefitGenerator.Generators.CSharp;
+using RefitGenerator.Generators.CSharp.AlgebraObjects;
 
 namespace RefitGenerator.Tests.OpenApiTests;
 
