@@ -24,8 +24,8 @@ public class OpenApiParserTests
 
     public static ISourceFormatterProvider CreateSourceFormatter()
         => new DefaultSourceFormatter(EOF, INDENT);
-    public static MethodAlgebraGenerator CreateFactory()
-        => new MethodAlgebraGenerator(CreateSourceFormatter());
+    public static MethodAlgebraObject CreateFactory()
+        => new MethodAlgebraObject(CreateSourceFormatter());
 
     public static OpenApiStringReader CreateOpenApiReader()
         => new OpenApiStringReader();

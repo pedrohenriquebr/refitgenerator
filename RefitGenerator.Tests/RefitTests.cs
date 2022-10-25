@@ -11,12 +11,12 @@ public class RefitTests
 {
     private readonly string EOF = "\r\n";
     private readonly string INDENT = " ";
-    private readonly MethodAlgebraGenerator factory;
+    private readonly MethodAlgebraObject factory;
     private readonly DefaultSourceFormatter formatterProvider;
     public RefitTests()
     {
         formatterProvider = new DefaultSourceFormatter(EOF, INDENT);
-        factory = new MethodAlgebraGenerator(formatterProvider);
+        factory = new MethodAlgebraObject(formatterProvider);
     }
 
 

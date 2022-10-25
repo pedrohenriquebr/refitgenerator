@@ -3,16 +3,16 @@ using RefitGenerator.Generators.CSharp.Behaviors;
 using RefitGenerator.Util;
 
 namespace RefitGenerator.Generators.CSharp.AlgebraObjects;
-public class RefitGeneratorAlgebra : IStatementsAlgebra<IStatementBehavior, IFileBehavior, IModifierBehavior>
+public class RefitGeneratorAlgebraObject : IStatementsAlgebra<IStatementBehavior, IFileBehavior, IModifierBehavior>
 {
     protected readonly ISourceFormatterProvider e;
     public ISourceFormatterProvider Fomatter => e;
 
-    public RefitGeneratorAlgebra() : this(new DefaultSourceFormatter())
+    public RefitGeneratorAlgebraObject() : this(new DefaultSourceFormatter())
     {
 
     }
-    public RefitGeneratorAlgebra(ISourceFormatterProvider e)
+    public RefitGeneratorAlgebraObject(ISourceFormatterProvider e)
     {
         this.e = e;
     }

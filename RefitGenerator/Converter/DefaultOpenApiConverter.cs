@@ -12,10 +12,10 @@ namespace RefitGenerator.Converter;
 public class DefaultOpenApiConverter : IOpenApiConverter
 {
     private readonly IOpenApiReader<string, OpenApiDiagnostic> openApiReader;
-    private readonly MethodAlgebraGenerator factory;
+    private readonly MethodAlgebraObject factory;
     public DefaultOpenApiConverter(
         IOpenApiReader<string, OpenApiDiagnostic> openApiReader,
-        MethodAlgebraGenerator methodAlgebraGenerator)
+        MethodAlgebraObject methodAlgebraGenerator)
     {
         this.openApiReader = openApiReader;
         factory = methodAlgebraGenerator;

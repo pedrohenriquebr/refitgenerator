@@ -3,9 +3,9 @@ using RefitGenerator.Generators.CSharp.Behaviors;
 
 namespace RefitGenerator.Generators.CSharp.AlgebraObjects;
 
-public class MultipleStatementsAlgebra : RefitGeneratorAlgebra, IMultipleStatementsAlgebra<IStatementBehavior, IFileBehavior, IModifierBehavior>
+public class MultipleStatementsAlgebraObject : RefitGeneratorAlgebraObject, IMultipleStatementsAlgebra<IStatementBehavior, IFileBehavior, IModifierBehavior>
 {
-    public MultipleStatementsAlgebra(ISourceFormatterProvider provider) : base(provider)
+    public MultipleStatementsAlgebraObject(ISourceFormatterProvider provider) : base(provider)
     {
     }
 
