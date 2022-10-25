@@ -1,13 +1,13 @@
 ﻿using Microsoft.OpenApi.Models;
 using Microsoft.OpenApi.Readers;
 using Microsoft.OpenApi.Readers.Interface;
-using RefitGenerator.Core;
-using RefitGenerator.Factories;
 using RefitGenerator.Util;
 using Microsoft.OpenApi.Any;
-using NJsonSchema;
+//using NJsonSchema;
+using RefitGenerator.Generators.CSharp.Behaviors;
+using RefitGenerator.Generators.CSharp.AlgebraObjects;
 
-namespace RefitGenerator.Tests.OpenApiTests;
+namespace RefitGenerator.Converter;
 
 public class DefaultOpenApiConverter : IOpenApiConverter
 {
@@ -18,7 +18,7 @@ public class DefaultOpenApiConverter : IOpenApiConverter
         MethodAlgebraGenerator methodAlgebraGenerator)
     {
         this.openApiReader = openApiReader;
-        this.factory = methodAlgebraGenerator;
+        factory = methodAlgebraGenerator;
     }
 
     public string CreateMethodName(string operationId)
@@ -32,11 +32,11 @@ public class DefaultOpenApiConverter : IOpenApiConverter
                 .SelectMany(x => x.Item2.Value.Responses)
                 .Where(x => x.Key == "200")
                 .SelectMany(x => x.Value.Content)
-                .Select(x => ((OpenApiString)x.Value.Example))
+                .Select(x => (OpenApiString)x.Value.Example)
                 .Select(x => x.Value);
 
 
-        var jsonSchemas = jsons.Select(x => JsonSchema.FromSampleJson(x));
+        //var jsonSchemas = jsons.Select(x => JsonSchema.FromSampleJson(x));
 
 
 
@@ -57,11 +57,11 @@ public class DefaultOpenApiConverter : IOpenApiConverter
     public IAttributeBehavior CreateMethodAttribute(string path, OperationType key)
         => key switch
         {
-            >= OperationType.Get and <= OperationType.Delete => 
+            >= OperationType.Get and <= OperationType.Delete =>
                 path switch
                 {
-                     null or "" or "/" => factory.Attribute(key.ToString()),
-                     _ => factory.Attribute(key.ToString(), factory.StringConst(path))
+                    null or "" or "/" => factory.Attribute(key.ToString()),
+                    _ => factory.Attribute(key.ToString(), factory.StringConst(path))
                 },
             _ => throw new ArgumentException("OperationType not supported!")
         };

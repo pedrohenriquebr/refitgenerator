@@ -1,7 +1,7 @@
 ﻿using Microsoft.OpenApi.Models;
-using RefitGenerator.Core;
+using RefitGenerator.Generators.CSharp.Behaviors;
 
-namespace RefitGenerator.Tests.OpenApiTests;
+namespace RefitGenerator.Converter;
 
 public interface IOpenApiConverter
 {
