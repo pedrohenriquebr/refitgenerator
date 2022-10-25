@@ -1,9 +1,10 @@
 ﻿using RefitGenerator.Core;
+using RefitGenerator.Core.Providers;
 using RefitGenerator.Generators.CSharp.Behaviors;
 using RefitGenerator.Util;
 
 namespace RefitGenerator.Generators.CSharp.AlgebraObjects;
-public class RefitGeneratorAlgebraObject : IStatementsAlgebra<IStatementBehavior, IFileBehavior, IModifierBehavior>
+public class RefitGeneratorAlgebraObject : IStatementsAlgebraObject<IStatementBehavior, IFileBehavior, IModifierBehavior>
 {
     protected readonly ISourceFormatterProvider e;
     public ISourceFormatterProvider Fomatter => e;

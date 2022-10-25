@@ -1,7 +1,7 @@
 ﻿namespace RefitGenerator.Core;
 
-public interface IMethodsAlgebra<TStatement, TFile, TModifier, TType, TPropAccessor, TParam, TValue, TAttribute>
-    : ITypesAndMembersAlgebra<TStatement, TFile, TModifier, TType, TPropAccessor>
+public interface IMethodsAlgebraObject<TStatement, TFile, TModifier, TType, TPropAccessor, TParam, TValue, TAttribute>
+    : ITypesAndMembersAlgebraObject<TStatement, TFile, TModifier, TType, TPropAccessor>
 {
 
     TStatement InterfaceMethod(string name, TType returnType, TModifier[] modifiers, TParam[] @params);

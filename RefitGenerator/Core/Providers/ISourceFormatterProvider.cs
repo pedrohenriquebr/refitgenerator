@@ -1,4 +1,4 @@
-﻿namespace RefitGenerator.Core;
+﻿namespace RefitGenerator.Core.Providers;
 
 public interface ISourceFormatterProvider
 {

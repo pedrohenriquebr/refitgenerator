@@ -1,5 +1,5 @@
 ﻿using Microsoft.OpenApi.Readers;
-using RefitGenerator.Core;
+using RefitGenerator.Core.Providers;
 using RefitGenerator.Generators.CSharp;
 using RefitGenerator.Generators.CSharp.AlgebraObjects;
 

@@ -476,7 +476,7 @@ public class RefitTests
         Assert.Equal(expected,result);
     }
 
-    public static T GenerateNamespacesAndEmptyClass<T>(IMultipleStatementsAlgebra<T, IFileBehavior, IModifierBehavior> factory)
+    public static T GenerateNamespacesAndEmptyClass<T>(IMultipleStatementsAlgebraObject<T, IFileBehavior, IModifierBehavior> factory)
     => factory.Root(
         factory.Compose(
              factory.UsingNamespace("System"),
@@ -485,7 +485,7 @@ public class RefitTests
          factory.Class("UserInputModel")
        );
 
-    public static T GenerateUsingNameSpace<T>(IStatementsAlgebra<T, IFileBehavior, IModifierBehavior> factory)
+    public static T GenerateUsingNameSpace<T>(IStatementsAlgebraObject<T, IFileBehavior, IModifierBehavior> factory)
         => factory.Compose(
                 factory.UsingNamespace("System"),
                 factory.UsingNamespace("Microsoft.CodeAnalysis.CSharp.Syntax"),

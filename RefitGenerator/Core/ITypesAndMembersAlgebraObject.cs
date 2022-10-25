@@ -1,6 +1,6 @@
 ﻿namespace RefitGenerator.Core;
 
-public interface ITypesAndMembersAlgebra<TStatement, TFile, TModifier, TType, TPropAccessor> : IMultipleStatementsAlgebra<TStatement, TFile, TModifier>
+public interface ITypesAndMembersAlgebraObject<TStatement, TFile, TModifier, TType, TPropAccessor> : IMultipleStatementsAlgebraObject<TStatement, TFile, TModifier>
 {
     TType Integer();
     TType String();

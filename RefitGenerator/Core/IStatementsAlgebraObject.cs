@@ -1,6 +1,6 @@
 ﻿namespace RefitGenerator.Core;
 
-public interface IStatementsAlgebra<TStatement, TFile, TModifier> : IRefitExpAlgo<TStatement, TFile>
+public interface IStatementsAlgebraObject<TStatement, TFile, TModifier> : IRefitExpAlgebraObject<TStatement, TFile>
 {
     TStatement UsingNamespace(string s);
     TStatement Namespace(string s);

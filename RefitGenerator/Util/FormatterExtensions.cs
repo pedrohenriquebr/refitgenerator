@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using RefitGenerator.Core;
+using RefitGenerator.Core.Providers;
 
 namespace RefitGenerator.Util;
 

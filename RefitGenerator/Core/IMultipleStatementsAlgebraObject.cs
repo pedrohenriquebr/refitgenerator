@@ -1,6 +1,6 @@
 ﻿namespace RefitGenerator.Core;
 
-public interface IMultipleStatementsAlgebra<TStatement, TFile, TModifier> : IStatementsAlgebra<TStatement, TFile, TModifier>
+public interface IMultipleStatementsAlgebraObject<TStatement, TFile, TModifier> : IStatementsAlgebraObject<TStatement, TFile, TModifier>
 {
     TStatement Block(params TStatement[] statements);
     TStatement Interface(string name, TStatement body);

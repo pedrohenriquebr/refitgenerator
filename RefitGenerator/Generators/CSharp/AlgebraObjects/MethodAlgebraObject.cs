@@ -1,10 +1,11 @@
 ﻿using RefitGenerator.Core;
+using RefitGenerator.Core.Providers;
 using RefitGenerator.Generators.CSharp.Behaviors;
 
 namespace RefitGenerator.Generators.CSharp.AlgebraObjects;
 
 public class MethodAlgebraObject : TypesAndMemberAlgebraObject,
-    IMethodsAlgebra<IStatementBehavior, IFileBehavior, IModifierBehavior, ITypeBehavior, IPropAccessorBehavior, IParameterInfoBehavior, IValueBehavior, IAttributeBehavior>
+    IMethodsAlgebraObject<IStatementBehavior, IFileBehavior, IModifierBehavior, ITypeBehavior, IPropAccessorBehavior, IParameterInfoBehavior, IValueBehavior, IAttributeBehavior>
 {
     public MethodAlgebraObject(ISourceFormatterProvider provider) : base(provider)
     {

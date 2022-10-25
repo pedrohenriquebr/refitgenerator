@@ -1,4 +1,4 @@
-﻿using RefitGenerator.Core;
+﻿using RefitGenerator.Core.Providers;
 
 namespace RefitGenerator.Generators.CSharp;
 

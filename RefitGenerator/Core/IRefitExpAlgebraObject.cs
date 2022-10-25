@@ -1,6 +1,6 @@
 ﻿namespace RefitGenerator.Core;
 
-public interface IRefitExpAlgo<TStatement, TFile>
+public interface IRefitExpAlgebraObject<TStatement, TFile>
 {
 
     TStatement Compose(params TStatement[] stmts);
