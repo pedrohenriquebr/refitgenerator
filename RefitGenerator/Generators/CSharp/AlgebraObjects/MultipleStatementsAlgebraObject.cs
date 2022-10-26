@@ -19,6 +19,8 @@ public class MultipleStatementsAlgebraObject : RefitGeneratorAlgebraObject, IMul
     public IStatementBehavior Block(params IStatementBehavior[] statements)
         => Make(() => JoinStatements(statements));
 
+    public IStatementBehavior Block(IEnumerable<IStatementBehavior> statements) 
+        => Make(() => JoinStatements(statements));
 
     public IStatementBehavior Interface(string name, IStatementBehavior body)
     {
@@ -33,4 +35,5 @@ public class MultipleStatementsAlgebraObject : RefitGeneratorAlgebraObject, IMul
     public IStatementBehavior Interface(string name)
         => Interface(name, Blank());
 
+    
 }

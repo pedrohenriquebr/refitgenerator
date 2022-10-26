@@ -36,6 +36,9 @@ public class RefitGeneratorAlgebraObject : IStatementsAlgebraObject<IStatementBe
     protected string JoinStatements(IStatementBehavior[] stmts, string @char = "")
         => stmts.Aggregate("", (acc, x) => acc + x.Generate() + @char);
 
+    protected string JoinStatements(IEnumerable<IStatementBehavior> stmts, string @char = "")
+        => stmts.Aggregate("", (acc, x) => acc + x.Generate() + @char);
+
     protected string JoinModifiers(IModifierBehavior[] stmts, string @char = "")
         => stmts.Aggregate("", (acc, x) => acc + x.Generate() + @char);
 
@@ -52,6 +55,7 @@ public class RefitGeneratorAlgebraObject : IStatementsAlgebraObject<IStatementBe
     }
 
     public IStatementBehavior Compose(params IStatementBehavior[] stmts) => Make(() => JoinStatements(stmts, $";{e.GetEof()}"));
+    public IStatementBehavior Compose(IEnumerable<IStatementBehavior> stmts) => Make(() => JoinStatements(stmts, $";{e.GetEof()}"));
 
     public IStatementBehavior Root(params IStatementBehavior[] stmts) => Make(() => JoinStatements(stmts, $""));
 
