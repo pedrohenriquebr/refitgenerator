@@ -1,4 +1,5 @@
-﻿using Microsoft.OpenApi.Models;
+﻿    using Microsoft.OpenApi.Models;
+using RefitGenerator.Converter.Models;
 using RefitGenerator.Generators.CSharp.Behaviors;
 
 namespace RefitGenerator.Converter;

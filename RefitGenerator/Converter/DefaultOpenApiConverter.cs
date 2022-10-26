@@ -6,6 +6,9 @@ using Microsoft.OpenApi.Any;
 //using NJsonSchema;
 using RefitGenerator.Generators.CSharp.Behaviors;
 using RefitGenerator.Generators.CSharp.AlgebraObjects;
+using System.Text.Json;
+using System.Text.Json.Nodes;
+using RefitGenerator.Converter.Mappers;
 
 namespace RefitGenerator.Converter;
 
@@ -27,17 +30,25 @@ public class DefaultOpenApiConverter : IOpenApiConverter
     {
         var methods = openApiDoc.Paths.MapToInterfaceMethod();
 
-        //extract from all 200 examples 
-        var jsons = methods
-                .SelectMany(x => x.Item2.Value.Responses)
-                .Where(x => x.Key == "200")
-                .SelectMany(x => x.Value.Content)
-                .Select(x => (OpenApiString)x.Value.Example)
-                .Select(x => x.Value);
+        //extract from all 200 examples
+        var examples = methods
+                .SelectMany(method =>
+                {
+                    return method.Item2.Value.Responses
+                    .Where(x => x.Key == "200")
+                    .SelectMany(x => x.Value.Content)
+                    .Select(x => (method.Item2.Value.OperationId, ((OpenApiString)x.Value?.Example)?.Value ?? null));
+                });
 
 
-        //var jsonSchemas = jsons.Select(x => JsonSchema.FromSampleJson(x));
-
+        var jsonSchemas = examples.SelectMany(x =>
+        {
+            if(x.Item2 is not null)
+                return JsonSerializer.Deserialize<JsonNode>(x.Item2).Map(x.OperationId);
+            return null;
+        })
+            .ToHashSet()
+            .ToList();
 
 
         return factory
@@ -49,8 +60,13 @@ public class DefaultOpenApiConverter : IOpenApiConverter
                             body: factory.Compose(
                                     methods
                                    .Select(obj => CreateInterfaceMethod(obj.Item1, obj.Item2))
-                                   .ToArray()))
-                        )
+                                   )),
+                        factory.Block(jsonSchemas.Select(x => factory.Class(x.Name,
+                            factory.Block(
+                                x.Props.Select(prop =>
+                                    factory.Property(prop.Name, factory.Type(prop.Type), new[] { factory.Public() }))
+                                )))
+                        ))
             .Generate();
     }
 
