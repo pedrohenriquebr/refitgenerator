@@ -9,10 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="OpenApiTests\Assets\Schema\expected.cs" />
     <Compile Remove="OpenApiTests\Assets\SimpleApi\expected.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="OpenApiTests\Assets\Schema\expected.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="OpenApiTests\Assets\SimpleApi\expected.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -37,6 +41,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="OpenApiTests\Assets\Schema\input.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="OpenApiTests\Assets\SimpleApi\input.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -1,7 +1,12 @@
-﻿using Microsoft.OpenApi.Readers;
+﻿using Microsoft.CodeAnalysis;
+using Microsoft.OpenApi.Readers;
+using RefitGenerator.Converter;
+using RefitGenerator.Converter.Mappers;
 using RefitGenerator.Core.Providers;
 using RefitGenerator.Generators.CSharp;
 using RefitGenerator.Generators.CSharp.AlgebraObjects;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace RefitGenerator.Tests.OpenApiTests;
 
@@ -20,6 +25,65 @@ public class OpenApiParserTests
             .Convert(input);
 
         Assert.Equal(expected, output);
+    }
+
+    [Fact]
+    public void Should_Generate_For_OpenApiWithSchema()
+    {
+        var factory = CreateFactory();
+        var openApiReader = CreateOpenApiReader();
+        var (input, expected) = LoadTestAssets("Schema");
+        string output = new DefaultOpenApiConverter(openApiReader, factory)
+            .Convert(input);
+
+        Assert.Equal(expected, output);
+    }
+
+    [Fact]
+    public void Should_Traverse_ObjJson()
+    {
+        var input = @"{
+    ""versions"": [
+        {
+            ""status"": ""CURRENT"",
+            ""updated"": ""2011-01-21T11:33:21Z"",
+            ""id"": ""v2.0"",
+            ""links"": [
+                {
+                    ""href"": ""http://127.0.0.1:8774/v2/"",
+                    ""rel"": ""self""
+                }
+            ]
+        },
+        {
+            ""status"": ""EXPERIMENTAL"",
+            ""updated"": ""2013-07-23T11:33:21Z"",
+            ""id"": ""v3.0"",
+            ""links"": [
+                {
+                    ""href"": ""http://127.0.0.1:8774/v3/"",
+                    ""rel"": ""self""
+                }
+            ]
+        }
+    ]
+}
+";
+        var json = JsonSerializer.Deserialize<JsonNode>(input);
+
+        var output = json.Map("Test");
+
+        Assert.NotNull(output);
+    }
+
+    [Theory]
+    [InlineData("MediaType", "media-type")]
+    [InlineData("MediaType", "mediaType")]
+    [InlineData("Name", "name")]
+    [InlineData("Nameprop", "nameprop")]
+    public void Should_Normalize_PropName(string expected, string input)
+    {
+        Assert.Equal(expected, JsonDictionaryMapper.NormalizeName(input));
     }
 
     public static ISourceFormatterProvider CreateSourceFormatter()
