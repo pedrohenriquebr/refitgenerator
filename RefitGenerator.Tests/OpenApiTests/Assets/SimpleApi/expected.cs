@@ -11,10 +11,10 @@ public interface ISimpleOpenApiOverviewService
 
 public class ListVersionsv2Response
 {
-    public List<VersionsResponse> Versions { get; set; }
+    public List<VersionsItem> Versions { get; set; }
 }
 
-public class VersionsResponse
+public class VersionsItem
 {
     public string Status { get; set; }
     public DateTime Updated { get; set; }
