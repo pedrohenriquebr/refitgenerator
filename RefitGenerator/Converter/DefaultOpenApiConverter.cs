@@ -9,6 +9,7 @@ using RefitGenerator.Generators.CSharp.AlgebraObjects;
 using System.Text.Json;
 using System.Text.Json.Nodes;
 using RefitGenerator.Converter.Mappers;
+using RefitGenerator.Converter.Models;
 
 namespace RefitGenerator.Converter;
 
@@ -40,13 +41,14 @@ public class DefaultOpenApiConverter : IOpenApiConverter
                     .Select(x => (method.Item2.Value.OperationId, ((OpenApiString)x.Value?.Example)?.Value ?? null));
                 });
 
-
-        var jsonSchemas = examples.SelectMany(x =>
+        var schemasFromExamples = examples.SelectMany(x =>
         {
             if(x.Item2 is not null)
                 return JsonSerializer.Deserialize<JsonNode>(x.Item2).Map(x.OperationId);
             return null;
-        })
+        });
+
+        var jsonSchemas = Enumerable.Empty<ClassModel>()
             .ToHashSet()
             .ToList();
 
