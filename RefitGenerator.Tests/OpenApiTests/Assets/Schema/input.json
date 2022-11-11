@@ -1,323 +1,58 @@
 {
-  "openapi": "3.0.0",
+  "swagger": "2.0",
   "info": {
-    "title": "Link Example",
-    "version": "1.0.0"
+    "title": "Simple API overview",
+    "version": "v2"
   },
   "paths": {
-    "/2.0/users/{username}": {
+    "/": {
       "get": {
-        "operationId": "getUserByName",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
+        "operationId": "listVersionsv2",
+        "summary": "List API versions",
+        "produces": [
+          "application/json"
         ],
         "responses": {
           "200": {
-            "description": "The User",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/user"
-                }
-              }
-            },
-            "links": {
-              "userRepositories": {
-                "$ref": "#/components/links/UserRepositories"
-              }
+            "description": "200 300 response",
+            "examples": {
+              "application/json": "{\n    \"versions\": [\n        {\n            \"status\": \"CURRENT\",\n            \"updated\": \"2011-01-21T11:33:21Z\",\n            \"id\": \"v2.0\",\n            \"links\": [\n                {\n                    \"href\": \"http://127.0.0.1:8774/v2/\",\n                    \"rel\": \"self\"\n                }\n            ]\n        },\n        {\n            \"status\": \"EXPERIMENTAL\",\n            \"updated\": \"2013-07-23T11:33:21Z\",\n            \"id\": \"v3.0\",\n            \"links\": [\n                {\n                    \"href\": \"http://127.0.0.1:8774/v3/\",\n                    \"rel\": \"self\"\n                }\n            ]\n        }\n    ]\n}"
+            }
+          },
+          "300": {
+            "description": "200 300 response",
+            "examples": {
+              "application/json": "{\n    \"versions\": [\n        {\n            \"status\": \"CURRENT\",\n            \"updated\": \"2011-01-21T11:33:21Z\",\n            \"id\": \"v2.0\",\n            \"links\": [\n                {\n                    \"href\": \"http://127.0.0.1:8774/v2/\",\n                    \"rel\": \"self\"\n                }\n            ]\n        },\n        {\n            \"status\": \"EXPERIMENTAL\",\n            \"updated\": \"2013-07-23T11:33:21Z\",\n            \"id\": \"v3.0\",\n            \"links\": [\n                {\n                    \"href\": \"http://127.0.0.1:8774/v3/\",\n                    \"rel\": \"self\"\n                }\n            ]\n        }\n    ]\n}"
             }
           }
         }
       }
     },
-    "/2.0/repositories/{username}": {
+    "/v2": {
       "get": {
-        "operationId": "getRepositoriesByOwner",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
+        "operationId": "getVersionDetailsv2",
+        "summary": "Show API version details",
+        "produces": [
+          "application/json"
         ],
         "responses": {
           "200": {
-            "description": "repositories owned by the supplied user",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/repository"
-                  }
-                }
-              }
-            },
-            "links": {
-              "userRepository": {
-                "$ref": "#/components/links/UserRepository"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/2.0/repositories/{username}/{slug}": {
-      "get": {
-        "operationId": "getRepository",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
+            "description": "200 203 response",
+            "examples": {
+              "application/json": "{\n    \"version\": {\n        \"status\": \"CURRENT\",\n        \"updated\": \"2011-01-21T11:33:21Z\",\n        \"media-types\": [\n            {\n                \"base\": \"application/xml\",\n                \"type\": \"application/vnd.openstack.compute+xml;version=2\"\n            },\n            {\n                \"base\": \"application/json\",\n                \"type\": \"application/vnd.openstack.compute+json;version=2\"\n            }\n        ],\n        \"id\": \"v2.0\",\n        \"links\": [\n            {\n                \"href\": \"http://127.0.0.1:8774/v2/\",\n                \"rel\": \"self\"\n            },\n            {\n                \"href\": \"http://docs.openstack.org/api/openstack-compute/2/os-compute-devguide-2.pdf\",\n                \"type\": \"application/pdf\",\n                \"rel\": \"describedby\"\n            },\n            {\n                \"href\": \"http://docs.openstack.org/api/openstack-compute/2/wadl/os-compute-2.wadl\",\n                \"type\": \"application/vnd.sun.wadl+xml\",\n                \"rel\": \"describedby\"\n            },\n            {\n              \"href\": \"http://docs.openstack.org/api/openstack-compute/2/wadl/os-compute-2.wadl\",\n              \"type\": \"application/vnd.sun.wadl+xml\",\n              \"rel\": \"describedby\"\n            }\n        ]\n    }\n}"
             }
           },
-          {
-            "name": "slug",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
+          "203": {
+            "description": "200 203 response",
+            "examples": {
+              "application/json": "{\n    \"version\": {\n        \"status\": \"CURRENT\",\n        \"updated\": \"2011-01-21T11:33:21Z\",\n        \"media-types\": [\n            {\n                \"base\": \"application/xml\",\n                \"type\": \"application/vnd.openstack.compute+xml;version=2\"\n            },\n            {\n                \"base\": \"application/json\",\n                \"type\": \"application/vnd.openstack.compute+json;version=2\"\n            }\n        ],\n        \"id\": \"v2.0\",\n        \"links\": [\n            {\n                \"href\": \"http://23.253.228.211:8774/v2/\",\n                \"rel\": \"self\"\n            },\n            {\n                \"href\": \"http://docs.openstack.org/api/openstack-compute/2/os-compute-devguide-2.pdf\",\n                \"type\": \"application/pdf\",\n                \"rel\": \"describedby\"\n            },\n            {\n                \"href\": \"http://docs.openstack.org/api/openstack-compute/2/wadl/os-compute-2.wadl\",\n                \"type\": \"application/vnd.sun.wadl+xml\",\n                \"rel\": \"describedby\"\n            }\n        ]\n    }\n}"
             }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "The repository",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/repository"
-                }
-              }
-            },
-            "links": {
-              "repositoryPullRequests": {
-                "$ref": "#/components/links/RepositoryPullRequests"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/2.0/repositories/{username}/{slug}/pullrequests": {
-      "get": {
-        "operationId": "getPullRequestsByRepository",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "slug",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "state",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "enum": [
-                "open",
-                "merged",
-                "declined"
-              ]
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "an array of pull request objects",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/pullrequest"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/2.0/repositories/{username}/{slug}/pullrequests/{pid}": {
-      "get": {
-        "operationId": "getPullRequestsById",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "slug",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "pid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "a pull request object",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/pullrequest"
-                }
-              }
-            },
-            "links": {
-              "pullRequestMerge": {
-                "$ref": "#/components/links/PullRequestMerge"
-              }
-            }
-          }
-        }
-      }
-    },
-    "/2.0/repositories/{username}/{slug}/pullrequests/{pid}/merge": {
-      "post": {
-        "operationId": "mergePullRequest",
-        "parameters": [
-          {
-            "name": "username",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "slug",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "pid",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "the PR was successfully merged"
           }
         }
       }
     }
   },
-  "components": {
-    "links": {
-      "UserRepositories": {
-        "operationId": "getRepositoriesByOwner",
-        "parameters": {
-          "username": "$response.body#/username"
-        }
-      },
-      "UserRepository": {
-        "operationId": "getRepository",
-        "parameters": {
-          "username": "$response.body#/owner/username",
-          "slug": "$response.body#/slug"
-        }
-      },
-      "RepositoryPullRequests": {
-        "operationId": "getPullRequestsByRepository",
-        "parameters": {
-          "username": "$response.body#/owner/username",
-          "slug": "$response.body#/slug"
-        }
-      },
-      "PullRequestMerge": {
-        "operationId": "mergePullRequest",
-        "parameters": {
-          "username": "$response.body#/author/username",
-          "slug": "$response.body#/repository/slug",
-          "pid": "$response.body#/id"
-        }
-      }
-    },
-    "schemas": {
-      "user": {
-        "type": "object",
-        "properties": {
-          "username": {
-            "type": "string"
-          },
-          "uuid": {
-            "type": "string"
-          }
-        }
-      },
-      "repository": {
-        "type": "object",
-        "properties": {
-          "slug": {
-            "type": "string"
-          },
-          "owner": {
-            "$ref": "#/components/schemas/user"
-          }
-        }
-      },
-      "pullrequest": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer"
-          },
-          "title": {
-            "type": "string"
-          },
-          "repository": {
-            "$ref": "#/components/schemas/repository"
-          },
-          "author": {
-            "$ref": "#/components/schemas/user"
-          }
-        }
-      }
-    }
-  }
+  "consumes": [
+    "application/json"
+  ]
 }
