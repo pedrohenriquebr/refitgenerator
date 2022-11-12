@@ -5,7 +5,7 @@ namespace RefitGenerator.Converter.Factories;
 public interface IModelsFactory
 {
     ClassModel CreateClassForArrayItem(string key);
-    ClassPropModel CreateProForNestedObject(string propName);
+    ClassPropModel CreatePropForNestedObject(string propName);
     ClassModel CreateClassForNestedObject(string propName);
     ClassPropModel CreatePropForEmptyArray(string propName);
     ClassPropModel CreatePropForArray(string propName, string generic);

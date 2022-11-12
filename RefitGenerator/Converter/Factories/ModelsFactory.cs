@@ -19,7 +19,7 @@ public class ModelsFactory : IModelsFactory
         return CreateClass($"{key}Item");
     }
 
-    public ClassPropModel CreateProForNestedObject(string propName)
+    public ClassPropModel CreatePropForNestedObject(string propName)
     {
         var model = CreateProp(propName, _methodResponseNameStrategy.Create(_normalizationStrategy.NormalizeName(propName)));
         return model with

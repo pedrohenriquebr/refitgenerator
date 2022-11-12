@@ -63,7 +63,7 @@ public class DefaultModelsMapper : IModelsMapper
             }
             else if (prop.Value is JsonObject)
             {
-                lastClass.Props.Add(modelsFactory.CreateProForNestedObject(prop.Key));
+                lastClass.Props.Add(modelsFactory.CreatePropForNestedObject(prop.Key));
                 var newObj = modelsFactory.CreateClassForNestedObject(prop.Key);
 
                 set.Add(newObj);
