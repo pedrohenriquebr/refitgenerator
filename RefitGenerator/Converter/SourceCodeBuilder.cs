@@ -15,16 +15,19 @@ public class SourceCodeBuilder : ISourceCodeBuilder
 
     private readonly IModelsMapper examplesJsonMapper;
     private readonly IInterfaceMethodBuilder interfaceMethodBuilder;
+    private readonly IClassBuilder _classBuilder;
 
     public IInterfaceMethodBuilder InterfaceMethodBuilder => interfaceMethodBuilder;
 
     public SourceCodeBuilder(MethodAlgebraObject algebraObjFactory,
                             IModelsMapper examplesJsonMapper,
-                            IInterfaceMethodBuilder interfaceMethodBuilder)
+                            IInterfaceMethodBuilder interfaceMethodBuilder,
+                            IClassBuilder classBuilder)
     {
         this.algebraObjFactory = algebraObjFactory;
         this.examplesJsonMapper = examplesJsonMapper;
         this.interfaceMethodBuilder = interfaceMethodBuilder;
+        _classBuilder = classBuilder;
     }
 
     public IStatementBehavior BuildStatementTree()
@@ -48,14 +51,15 @@ public class SourceCodeBuilder : ISourceCodeBuilder
                                     interfaceMethodBuilder.Build(openApiSpec.Methods)
                                    )
                             ),
-                        algebraObjFactory.Block(generatedSchemas
-                                .Select(x =>
-                                    algebraObjFactory.Class(x.Name,
-                                        algebraObjFactory.Block(
-                                            x.Props.Select(prop =>
-                                                algebraObjFactory.Property(prop.Name, algebraObjFactory.Type(prop.Type), new[] { algebraObjFactory.Public() }))
-                                            )))
-                        ));
+                        algebraObjFactory.Block(
+                            generatedSchemas
+                                    .Select(x =>
+                                        this._classBuilder
+                                            .WithName(x.Name)
+                                            .WithProps(x.Props)
+                                            .Build())
+                                    )
+                        );
     }
     public string Build()
     {
