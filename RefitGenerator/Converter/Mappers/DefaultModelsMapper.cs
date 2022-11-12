@@ -80,10 +80,10 @@ public class DefaultModelsMapper : IModelsMapper
     }
     public IEnumerable<ClassModel> Map(List<ExampleJsonModel> examplesJsonList)
     {
-        return examplesJsonList.SelectMany(x =>
+        return examplesJsonList
+            .Where(x => x is not null && x.Json is not null)
+            .SelectMany(x =>
         {
-            if (x.Json is null)
-                return null;
              return Map(JsonSerializer.Deserialize<JsonNode>(x.Json), x.OperationId);
         });
     }
