@@ -19,6 +19,9 @@ public class DefaultModelsMapper : IModelsMapper
         var set = new HashSet<ClassModel>();
         var stack = new Stack<ClassModel>();
 
+        if (json is null)
+            return set;
+
         var initialObj = modelsFactory.CreateClass(rootName);
         set.Add(initialObj);
         stack.Push(initialObj);
