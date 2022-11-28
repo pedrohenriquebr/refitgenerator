@@ -1,7 +1,10 @@
-﻿using Microsoft.OpenApi.Readers;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Readers;
+using Microsoft.OpenApi.Readers.Interface;
 using RefitGenerator.Converter;
 using RefitGenerator.Converter.Factories;
 using RefitGenerator.Converter.Mappers;
+using RefitGenerator.Converter.ParameterObjects;
 using RefitGenerator.Converter.Strategies;
 using RefitGenerator.Core.Providers;
 using RefitGenerator.Generators.CSharp;
@@ -13,32 +16,31 @@ public abstract class BaseTests
 {
     private static readonly string EOF = "\r\n";
     private static readonly string INDENT = "    ";
-    public ISourceCodeBuilder CreateSourceCodeBuilder()
+
+    public IServiceProvider BuildServiceProvider()
     {
-        var factory = CreateAlgebraObjectFactory();
-        var classBuilder = new DefaultClassBuilder(factory);
-        var normalizationStrategy = new DefaultNormalizationStrategy();
-        var modelsFactory = new ModelsFactory(normalizationStrategy);
-        var modelsMapper = new DefaultModelsMapper(modelsFactory);
-        var methodAttributeFactory = new DefaultMethodAttributeFactory(factory);
-        var interfaceMethodBuilder = new DefaultInterfaceMethodBuilder(methodAttributeFactory, factory);
-        var sourceCodeBuilder = new SourceCodeBuilder(new (){
-            AlgebraObjFactory = factory,
-            ExamplesJsonMapper = modelsMapper,
-            InterfaceMethodBuilder = interfaceMethodBuilder,
-            ClassBuilder = classBuilder,
+        var collection = new ServiceCollection();
+        collection.AddScoped<INormalizationStrategy, DefaultNormalizationStrategy>();
+        collection.AddScoped<IModelsFactory, ModelsFactory>();
+        collection.AddScoped<IModelsMapper, DefaultModelsMapper>();
+        collection.AddScoped<ISourceFormatterProvider>((c) => new DefaultSourceFormatter(EOF, INDENT));
+        collection.AddScoped<MethodAlgebraObject>();
+        collection.AddScoped<IClassBuilder, DefaultClassBuilder>();
+        collection.AddScoped<IMethodAttributeFactory, DefaultMethodAttributeFactory>();
+        collection.AddScoped<IInterfaceMethodBuilder, DefaultInterfaceMethodBuilder>();
+        collection.AddScoped<ISourceCodeBuilder, SourceCodeBuilder>();
+        collection.AddScoped<SourceCodeBuilderParameters>(c => new SourceCodeBuilderParameters()
+        {
+            AlgebraObjFactory = c.GetRequiredService<MethodAlgebraObject>(),
+            ClassBuilder = c.GetRequiredService<IClassBuilder>(),
+            ExamplesJsonMapper = c.GetRequiredService<IModelsMapper>(),
+            InterfaceMethodBuilder = c.GetRequiredService<IInterfaceMethodBuilder>()
         });
+        collection.AddScoped<IOpenApiConverter,DefaultOpenApiConverter>();
+        collection.AddScoped<IOpenApiReader<string, OpenApiDiagnostic>, OpenApiStringReader>();
 
-        return sourceCodeBuilder;
+        return collection.BuildServiceProvider();
     }
-
-    public static ISourceFormatterProvider CreateSourceFormatter()
-        => new DefaultSourceFormatter(EOF, INDENT);
-    public static MethodAlgebraObject CreateAlgebraObjectFactory()
-        => new MethodAlgebraObject(CreateSourceFormatter());
-
-    public static OpenApiStringReader CreateOpenApiReader()
-        => new OpenApiStringReader();
 
     public static (string, string) LoadTestFiles(string testName)
     {

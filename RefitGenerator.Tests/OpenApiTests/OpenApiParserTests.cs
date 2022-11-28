@@ -1,4 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Extensions.DependencyInjection;
 using RefitGenerator.Converter;
 using RefitGenerator.Converter.Mappers;
 using RefitGenerator.Converter.Strategies;
@@ -27,12 +29,10 @@ public class OpenApiParserTests : BaseTests
     [Fact]
     public void Should_Generate_For_OpenApiWithSchema()
     {
-
-        var sourceCodeBuilder = CreateSourceCodeBuilder();
-        var openApiReader = CreateOpenApiReader();
+        var provider = BuildServiceProvider();
         var (input, expected) = LoadTestFiles("Schema");
-        string output = new DefaultOpenApiConverter(openApiReader, sourceCodeBuilder)
-            .Convert(input, "ISimpleOpenApiOverviewService");
+        var openApiConverter  = provider.GetRequiredService<IOpenApiConverter>();
+        string output = openApiConverter.Convert(input, "ISimpleOpenApiOverviewService");
 
         Assert.Equal(expected, output);
     }

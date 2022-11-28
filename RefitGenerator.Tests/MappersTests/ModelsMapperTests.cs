@@ -5,21 +5,18 @@ using RefitGenerator.Converter.Factories;
 using RefitGenerator.Converter.Mappers;
 using RefitGenerator.Converter.Models;
 using RefitGenerator.Converter.Strategies;
+using RefitGenerator.Tests.Base;
 using System.Text.Json.Nodes;
 
 namespace RefitGenerator.Tests.MappersTests;
 
-public class ModelsMapperTests
+public class ModelsMapperTests : BaseTests
 {
     private readonly IModelsMapper modelsMapper;
     public ModelsMapperTests()
     {
-        var collection = new ServiceCollection();
-        collection.AddScoped<INormalizationStrategy, DefaultNormalizationStrategy>();
-        collection.AddScoped<IModelsFactory, ModelsFactory>();
-        collection.AddScoped<IModelsMapper, DefaultModelsMapper>();
-        var provider = collection.BuildServiceProvider();
-        modelsMapper = provider.GetRequiredService<IModelsMapper>();
+        modelsMapper = BuildServiceProvider()
+            .GetRequiredService<IModelsMapper>();
     }
 
     [Fact]
