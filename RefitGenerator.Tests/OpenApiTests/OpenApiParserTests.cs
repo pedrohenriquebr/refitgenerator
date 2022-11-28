@@ -38,6 +38,17 @@ public class OpenApiParserTests : BaseTests
     }
 
     [Fact]
+    public void Should_Generate_For_TodoApiService()
+    {
+        var provider = BuildServiceProvider();
+        var (input, expected) = LoadTestFiles("Todo");
+        var openApiConverter  = provider.GetRequiredService<IOpenApiConverter>();
+        string output = openApiConverter.Convert(input, "ITodoApiService");
+
+        Assert.Equal(expected, output);
+    }
+
+    [Fact]
     public void Should_Traverse_ObjJson()
     {
         var input = @"{
