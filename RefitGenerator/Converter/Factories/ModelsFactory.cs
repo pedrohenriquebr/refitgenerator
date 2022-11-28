@@ -5,8 +5,6 @@ namespace RefitGenerator.Converter.Factories;
 
 public class ModelsFactory : IModelsFactory
 {
-    private IMethodResponseNameStrategy _methodResponseNameStrategy = MethodResponseNameStrategies.ResponseSuffixStrategy;
-    private IClassPropNameStrategy _classPropNameStrategy = ClassPropNameStrategies.TitleCaseStrategy;
     private readonly INormalizationStrategy _normalizationStrategy;
 
     public ModelsFactory(INormalizationStrategy normalizationStrategy)
@@ -21,10 +19,10 @@ public class ModelsFactory : IModelsFactory
 
     public ClassPropModel CreatePropForNestedObject(string propName)
     {
-        var model = CreateProp(propName, _methodResponseNameStrategy.Create(_normalizationStrategy.NormalizeName(propName)));
+        var model = CreateProp(propName, GlobalSettings.MethodResponseNameStrategy.Create(_normalizationStrategy.NormalizeName(propName)));
         return model with
         {
-            Name = _classPropNameStrategy.Create(model.Name)
+            Name = GlobalSettings.ClassPropNameStrategy.Create(model.Name)
         };
     }
 
@@ -33,7 +31,7 @@ public class ModelsFactory : IModelsFactory
         var model = CreateClass(propName);
         return model with
         {
-            Name = _methodResponseNameStrategy.Create(model.Name)
+            Name = GlobalSettings.MethodResponseNameStrategy.Create(model.Name)
         };
     }
 

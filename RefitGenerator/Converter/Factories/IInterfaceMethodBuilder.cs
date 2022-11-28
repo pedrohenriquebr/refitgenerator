@@ -9,6 +9,4 @@ public interface IInterfaceMethodBuilder
 {
     public IStatementBehavior Build(string path, KeyValuePair<OperationType, OpenApiOperation> operation);
     public IEnumerable<IStatementBehavior> Build(List<OperationModel> operationModelsList);
-    public IInterfaceMethodBuilder WithMethodNameStrategy(IMethodNameStrategy strategy);
-    public IInterfaceMethodBuilder WithMethodResponseNameStrategy(IMethodResponseNameStrategy strategy);
 }

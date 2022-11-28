@@ -9,8 +9,6 @@ namespace RefitGenerator.Converter.Factories;
 public class DefaultInterfaceMethodBuilder : IInterfaceMethodBuilder
 {
     private readonly MethodAlgebraObject factory;
-    private IMethodNameStrategy _methodNameStrategy = MethodNameStrategies.TitleCaseStrategy;
-    private IMethodResponseNameStrategy _methodResponseNameStrategy = MethodResponseNameStrategies.ResponseSuffixStrategy;
     private readonly IMethodAttributeFactory _methodAttributeFactory;
 
     public DefaultInterfaceMethodBuilder(IMethodAttributeFactory methodAttributeFactory, MethodAlgebraObject factory)
@@ -19,22 +17,11 @@ public class DefaultInterfaceMethodBuilder : IInterfaceMethodBuilder
         this.factory = factory;
     }
 
-    public IInterfaceMethodBuilder WithMethodNameStrategy(IMethodNameStrategy strategy)
-    {
-        _methodNameStrategy = strategy;
-        return this;
-    }
-
-    public IInterfaceMethodBuilder WithMethodResponseNameStrategy(IMethodResponseNameStrategy strategy)
-    {
-        _methodResponseNameStrategy = strategy;
-        return this;
-    }
 
     public IStatementBehavior Build(string path, KeyValuePair<OperationType, OpenApiOperation> operation)
     {
-        var methodName = _methodNameStrategy.Create(operation.Value.OperationId);
-        var methodResponseTypeName = _methodResponseNameStrategy.Create(methodName);
+        var methodName = GlobalSettings.MethodNameStrategy.Create(operation.Value.OperationId);
+        var methodResponseTypeName = GlobalSettings.MethodResponseNameStrategy.Create(methodName);
         return factory.InterfaceMethod(
                     name: methodName,
                     returnType: factory.Type($"Task<{methodResponseTypeName}>"),
