@@ -1,38 +1,32 @@
 ﻿using RefitGenerator.Util;
 using RefitGenerator.Generators.CSharp.Behaviors;
 using RefitGenerator.Generators.CSharp.AlgebraObjects;
-using RefitGenerator.Converter.Mappers;
 using RefitGenerator.Converter.Models;
 using RefitGenerator.Converter.Factories;
+using RefitGenerator.Converter.ParameterObjects;
 
 namespace RefitGenerator.Converter;
 
 public class SourceCodeBuilder : ISourceCodeBuilder
 {
-    private readonly MethodAlgebraObject algebraObjFactory;
     private OpenApiModel openApiSpec = null;
     private string interfaceName = "";
 
-    private readonly IModelsMapper examplesJsonMapper;
-    private readonly IInterfaceMethodBuilder interfaceMethodBuilder;
-    private readonly IClassBuilder _classBuilder;
+    public IInterfaceMethodBuilder InterfaceMethodBuilder => _parameters.InterfaceMethodBuilder;
 
-    public IInterfaceMethodBuilder InterfaceMethodBuilder => interfaceMethodBuilder;
+    private readonly SourceCodeBuilderParameters _parameters;
 
-    public SourceCodeBuilder(MethodAlgebraObject algebraObjFactory,
-                            IModelsMapper examplesJsonMapper,
-                            IInterfaceMethodBuilder interfaceMethodBuilder,
-                            IClassBuilder classBuilder)
+    public SourceCodeBuilder(SourceCodeBuilderParameters parameters)
     {
-        this.algebraObjFactory = algebraObjFactory;
-        this.examplesJsonMapper = examplesJsonMapper;
-        this.interfaceMethodBuilder = interfaceMethodBuilder;
-        _classBuilder = classBuilder;
+        _parameters = parameters;
     }
 
     public IStatementBehavior BuildStatementTree()
     {
-        var mappedSchemasFromExamplesJson = examplesJsonMapper.Map(openApiSpec.Examples);
+        var mappedSchemasFromExamplesJson = _parameters.ExamplesJsonMapper.Map(openApiSpec.Examples);
+        var algebraObjFactory = _parameters.AlgebraObjFactory;
+        var interfaceMethodBuilder = _parameters.InterfaceMethodBuilder;
+        var classBuilder = _parameters.ClassBuilder;
 
         var generatedSchemas = Enumerable.Empty<ClassModel>()
             .ToHashSet()
@@ -54,7 +48,7 @@ public class SourceCodeBuilder : ISourceCodeBuilder
                         algebraObjFactory.Block(
                             generatedSchemas
                                     .Select(x =>
-                                        this._classBuilder
+                                        classBuilder
                                             .WithName(x.Name)
                                             .WithProps(x.Props)
                                             .Build())
@@ -63,11 +57,11 @@ public class SourceCodeBuilder : ISourceCodeBuilder
     }
     public string Build()
     {
-        if (algebraObjFactory.Fomatter is null)
+        if (_parameters.AlgebraObjFactory.Fomatter is null)
             throw new Exception("SourceFormatter is null");
         var tree = BuildStatementTree();
 
-        return algebraObjFactory.Fomatter.FormatCode(tree.Generate());
+        return _parameters.AlgebraObjFactory.Fomatter.FormatCode(tree.Generate());
     }
     public ISourceCodeBuilder New(OpenApiModel openApiDocument)
     {

@@ -22,10 +22,13 @@ public abstract class BaseTests
         var modelsMapper = new DefaultModelsMapper(modelsFactory);
         var methodAttributeFactory = new DefaultMethodAttributeFactory(factory);
         var interfaceMethodBuilder = new DefaultInterfaceMethodBuilder(methodAttributeFactory, factory);
-        var sourceCodeBuilder = new SourceCodeBuilder(factory,
-                                                      modelsMapper,
-                                                      interfaceMethodBuilder,
-                                                      classBuilder);
+        var sourceCodeBuilder = new SourceCodeBuilder(new (){
+            AlgebraObjFactory = factory,
+            ExamplesJsonMapper = modelsMapper,
+            InterfaceMethodBuilder = interfaceMethodBuilder,
+            ClassBuilder = classBuilder,
+        });
+
         return sourceCodeBuilder;
     }
 
